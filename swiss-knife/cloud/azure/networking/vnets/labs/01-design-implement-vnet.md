@@ -5,7 +5,7 @@ Lab guide https://microsoftlearning.github.io/AZ-700-Designing-and-Implementing-
 Plan and implement three VNets and subnets for your company future migration onto Azure
 
 ## Architecture:
-- Diagram with VNets and subnets: 'var/lab-vnet.png'
+- Diagram with VNets and subnets: ![VNets and subnets diagram](var/lab-vnet.png)
 
 ## Steps
 
@@ -32,7 +32,7 @@ Plan and implement three VNets and subnets for your company future migration ont
 			- PublicWebServiceSubnet
 				- Name: PublicWebServiceSubnet
 				- Starting address: 10.20.30.0
-3. Repeat the previous steps for ManufacturingVnet based on the following data: 'var/manufacturing_vnet.png'
-4. Repeat the previous steps for ResearchVnet based on the following data: 'var/research_vnet.png'
-5. Once you are done, you should be seeing the 3 subnets under "All resources" page, refer to image: 'var/resources.png'
-6. To verify subnets creation, select any of the VNets and, under Settings -> Subnets, the subnets should be listed with each corresponding IP range: 'var/subnets.png'
+3. Repeat the previous steps for ManufacturingVnet based on the following data: ![ManufacturingVnet parameters](var/manufacturing_vnet.png)
+4. Repeat the previous steps for ResearchVnet based on the following data: ![ResearchVnet parameters](var/research_vnet.png)
+5. Once you are done, you should be seeing the 3 subnets under "All resources" page, refer to image: ![VNets created](var/resources.png)
+6. To verify subnets creation, select any of the VNets and, under Settings -> Subnets, the subnets should be listed with each corresponding IP range: ![Subnets created](var/subnets.png)
