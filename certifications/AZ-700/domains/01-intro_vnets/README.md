@@ -9,8 +9,8 @@
 - VNet NAT
 
 ## Notes
-- [Vnet basics](../../../../swiss-knife/cloud/azure/networking/vnets/notes/vnets)
-- [Public IP Services](../../../../swiss-knife/cloud/azure/networking/vnets/notes/public_ip_services)
+- [Vnet basics](../../../../swiss-knife/cloud/azure/networking/vnets/notes/vnets.md)
+- [Public IP Services](../../../../swiss-knife/cloud/azure/networking/vnets/notes/public_ip_services.md)
 
 ## Labs
-- [Lab-01 - Virtual Networks + subnets](../../../../swiss-knife/cloud/azure/networking/vnets/labs/01-design-implement-vnet)
+- [Lab-01 - Virtual Networks + subnets](../../../../swiss-knife/cloud/azure/networking/vnets/labs/01-design-implement-vnet.md)
