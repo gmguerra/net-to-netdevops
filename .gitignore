@@ -1,3 +1,5 @@
 .obsidian/
 azuredeploy.json
 azuredeploy.parameters.json
+ManufacturingVMazuredeploy.json
+ManufacturingVMazuredeploy.parameters.json
