@@ -1,16 +1,21 @@
+# Virtual Network Peering
 Enables you to connect separates VNets with optimal network performance, whether they are in the same azure region (VNet peering) or in different regions (Global VNet peering). 
 
 Peering comes in a few different flavors:
-- Local regional peering: when two VNets are on the same Region. Common in Hub-Spoke topology and interlink workloads in separate networks through one to another. 
+- Local regional peering or just VNet peering: when two VNets are on the same Region. Common in Hub-Spoke topology and interlink workloads in separate networks through one to another. 
 - Global VNet peering: VNets can be interlinked across regional boundaries. Azure private backbone is used to traverse privately from a VNet to another. Usefil if you are interconnecting multiple sites, or you have a workload in another region. 
 
 Regardless of the above, the creation process is nearly identical. Either via portal, CLI or template, you can configure the direction of both sides: you choose what communication should flow between one VNet to another, either if it's bidirectional or unidirection. 
+
+Peering between subscriptions is possible, but some authorizations are required for that matter. 
 
 **Consideration:** Any two VNets that you would like to peer cannot overlap between them. 
 
 Network traffic between peered VNets is private, using microsoft backbone network as mentioned above.  No public internet gateways or encryption is required in communications between peered networks. 
 
-Peered VNets appear as one, for connectivity purposes. 
+Peered VNets appear as one, for connectivity purposes. This means that the tag called "Virtual Network", which is indeed the known IP space, so it includes the networks peered. Important for some rules. 
+
+In a hub-spoke topology with vnet peering, spokes don't talk. To enable spokes communication there a two options: a peering between them needs to be created, so a mesh, or route through the hub, you would need something in the hub VNet (firewall, NVA) to route from one to another. This is achieved by adding routing in the spoke VNets as well. Allow traffic forwarded from remote virtual network needs to be enabled as well 
 
 **Benefits**
 - Low-latency, high-bandwidth connection between resources in different VNets
@@ -30,6 +35,11 @@ Having this, the subnet gateway could:
 - Use site-to-site VPN to connect to an on-premises network.
 - Use a VNet-to-VNet connection to another VNet
 - Use a point-to-site VPN to connect to a client. 
+- Use Express Route
 
 Basically, a VNet shares the gateway transit with its peered VNet and get access to remote resources. You don't need to deploy a VPN gateway for all the VNets if you have a peering already in place. 
+
+To achieve this connectivity, you need to allow in the hub the GW transit (option "Use this Virtual network's gateway or Route Server"). In the spoke, you need to allow use the remote GW (option "Use remote virtual network's gateway or Route Server). 
+
+Only one Gateway per VNet, so you cannot use 2 hubs gateway's. If you have a gateway in you VNet, you need to use that as well. 
 
