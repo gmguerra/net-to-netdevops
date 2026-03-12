@@ -36,6 +36,11 @@ For UDRs, these are the next hops:
 - Virtual Network: when you want to override the default routing wihtin a VNet.
 - Internet. When you want to head the traffic towards Internet. 
 
+Next-hop IP doesn't need to be an IP of the same subnet like in traditional networks, it can be a device within a different subnet or even a different vnet. 
+
+Routing table needs to be in the same region as the subnet. RT are linked to subnets. Once the routing table is created, you need to associate it to the subnet. 
+
+You can override even the default route to get the traffic flowing through where you would want. 
 ## Azure Route Server
 Simplifies dynamic routing between a network virtual appliance and the VNet. It's a serviced that can be configured with high availability. Benefits:
 - It's not necessary to update the routing table on the NVA whenever the VNet is updated.
@@ -45,3 +50,4 @@ Simplifies dynamic routing between a network virtual appliance and the VNet. It'
 - Azure Route Server can be deployed in any of the VNets. 
 ## Troubleshoot with effective routes
 You can diagnose a routing problem by checking the effective routes a VM NIC has. It can be viewed for each NIC via Azure portal ![Effective routes example](var/nics.png)
+Effective routes will show a bunch of routes either they are built-in, or those added via VPN connections or express routes. The next hope will show how that route was created: vnet peering, virtual network services, etc. These routes are populated to the NICs
