@@ -1,9 +1,15 @@
+By default, a VNet will use Azure DNS. That will provide name resolution for the resources in the same VNet. Custom DNS can be set, even on NIC level. 
+
+Azure special DNS address: 168.63.1289.16 -> Azure DNS Endpoint. This DNS endpoint will only work within Azure, so on-prem would not be able to reply, unless a forwarder is created in Azure.
+
 Two DNS services:
 - Public DNS
 - Private DNS
 
 ## Public DNS services
 Hosting service for DNS domains. Provides name resolution using Azure infra. Hosted in Azure's global network of DNS servers. The queries are directed to the closes available server. Resolves names without needing to add a custom DNS solution. 
+
+Entries are manually added. A, AAAA and CNAME are supported. This Public DNS zone will be authoritative for the name it belongs. Azure private DNS endpoint can resolve names against this public DNS, so internal resources can resolve those public names.  
 
 **Considerations:**
 - DNS zone must be unique within the resource group, and zone must not exist already.
@@ -23,6 +29,10 @@ Child domains can be delegated individually. Setting up a subdomain follows the 
 
 ## Private DNS services
 Reliable and secure DNS service for your VNets. Manages and resolve domains in teh VNet, without a custom DNS solution. You can use own custom domains instead of the Azure-provided ones during deployment. Helps you tailor your VNet architecture to best suit you org's need. Naming resolution for VMs within a VNet and connected VNets 
+
+Azure Private DNS Zone: certain name for the zone. It can contains different records: CNAME, TXT, PTR, MX, SRV, SOA, etc. Those can be manually added, or automatically created. When a VNet is linked to one (and only one) Azure private DNS zone for registration, it will add the resources of that VNet into the zone. A VNet can be linked to a thousand of Azure private DNS zones for resolution. 
+
+Azure private DNS zones are global resources, for multiple zone. A single zone can hold up to 100 VNets registering to it, and up to 1000 VNets resolving from it. 
 
 **Considerations**
 - No custom DNS solutions.
