@@ -13,6 +13,8 @@
 - [Public IP Services](../../../../swiss-knife/cloud/azure/networking/vnets/notes/public_ip_services.md)
 - [DNS](../../../../swiss-knife/cloud/azure/networking/dns/notes/dns.md)
 - [VNet pering](../../../../swiss-knife/cloud/azure/networking/vnet-peering/notes/vnet-peering.md)
+- [VNet routing](../../../../swiss-knife/cloud/azure/networking/vnet-routing/notes/vnet-routing.md)
+- [Internet Access](../../../../swiss-knife/cloud/azure/networking/internet-access/notes/internet-access-nat.md)
 
 ## Labs
 - [Lab-01 - Virtual Networks + subnets](../../../../swiss-knife/cloud/azure/networking/vnets/labs/01-design-implement-vnet.md)
