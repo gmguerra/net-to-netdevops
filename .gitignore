@@ -3,3 +3,5 @@ azuredeploy.json
 azuredeploy.parameters.json
 ManufacturingVMazuredeploy.json
 ManufacturingVMazuredeploy.parameters.json
+CoreServicesVMazuredeploy.json
+CoreServicesVMazuredeploy.parameters.json
