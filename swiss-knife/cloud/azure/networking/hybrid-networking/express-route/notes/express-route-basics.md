@@ -30,7 +30,7 @@ The traffic that traverse the ExpressRoute is whatever you pick, as a connection
 	- CloudExchange colocation: customer needs to be colocated in a facility with a cloud exchange. Virtual cross-connection from customer to Microsoft through the colocation provider's Ethernet exchange. Either L2 or L3 cross-connections. 
 	- Point-to-point Ethernet connection: on-premises to Microsoft cloud with dedicated point-to-piint Ethernet links. P2P providers offer L2 connections.
 	- Any-to-any (IP VPN) connection: integration of WAN with Microsoft Azure via an IP VPN (typically MPLS VPN). Offer any-to-any connectivity between branch offices and DCs. Microsoft cloud can be interconnect to customer's WAN to make it like any other site. Managed L3 connectivity. 
-- ExpressRoute Direct: connect to Microsoft cloud at a peering location which are distributed across the world. Provides dual 100-Gbps or 10-Gbps connectivity, supporting Active/Active connectivity at scale.
+- ExpressRoute Direct: connect to Microsoft cloud at a peering location which are distributed across the world. Provides dual 100-Gbps or 10-Gbps connectivity, supporting Active/Active connectivity at scale. When a ExpressRoute Direct is requested, the customer is provisioned with a pair of fibre ports in the Microsoft Secure Edge, so it needs to run fiber lines from its On-Prem to the MSSE. Customer deals with low-level connections, so light levels and everything can be monitored over the L1 and L2. On top of the circuits, you can run the expressroute connection. To achieve this, an ExpressRoute circuit needs to be provisioned from the on-prem to the Azure VNET, passing through the MSSE. Separately, other services can be run over the same physical connection. Achieved with QinQ encapsulation, connections are separated from each other. Circuits can vary on its bandwidth, ExpressRoute Direct circuits can be provisioned at 10 or 100 Gbps, which would allow you to provision smaller circuits up to 100Gbpps. The level of flexibility in terms of scale and size is vast in ExpressRoute Direct compared to an ExpressRoute via a service provider. 
 
 Choosing any of the models will depend on the customer requirements, such as performance, budget and control over the network. 
 
@@ -40,3 +40,8 @@ Choosing any of the models will depend on the customer requirements, such as per
 |Connectivity|Connection via a service provider's infrastructure|Direct connection to Microsoft's network through dual 10-Gbps or 100-Gbps ports|
 |Circuit SKUs|Ranges from 50 Mbps to 10 Gbps|10-Gbps: 1, 2, 5, 10 Gbps; 100-Gbps: 5, 10, 40, 100 Gbps|
 |Optimization|Optimized for single tenant|Optimized for a single tenant with multiple business units|
+### Azure ExpressRouite SKUs
+
+- Local SKU: connectivity to a single Azure region. Suitable for low latency access to resources in a particular Azure region
+- Standard SKU: multiple Azure regions within the same geopolitical area. Businesses that operate within a specific region but need access to resources across multiple locations
+- Premium SKU: All regions globally. Ideal for multinational orgs that require seamless connectivity to Azure resources across different continents. 
