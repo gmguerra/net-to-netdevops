@@ -1,5 +1,9 @@
 # ExpressRoute circuit design for reliability
 
+ExpressRoute always requires a circuit to work. Even though it's Microsoft Direct, a circuit within the port assigned is needed. The ExpressRoute circuits are limited in bandwidth, 10 or 100 Gbps circuits each. Full duplex circuits. 
+
+Logically, circuits can vary in size from 50 Mbps to 100 Gbps (expressRoute direct only)
+
 Resiliency: prevent failures and, in the event they do occur, restore applications to a fully operational state.
 
 Availability: consistent access to applications or workloads. 

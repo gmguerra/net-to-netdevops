@@ -15,3 +15,22 @@ Benefits:
 - Optimized routing: enhance overall efficiency of network operations
 - Reliability: more direct connection makes less chance of network congestion or packet loss. 
 - Security: ensures data travels through fewer intermediary points, potentially reducing exposure to security risks. 
+
+Some limitations:
+- As gateway is bypassed, UDRs on the gateway subnet has no impact. 
+- The traffic from on-prem to VNets that are peered to the VNet of the gateway will continue to go through the GW.  
+- If there is a basic load balancer, the traffic destined to the devices behind that load balancer will use the gateway. 
+- If you connect to a private endpoint in the virtual network from the on-prem, the connection will go through the virtual network gateway
+
+# Other features
+
+## BFD 
+If any ExpressRoute circuit fails, BGP would switch the traffic over. But BGP is not fast to converge. Bidirectional Forwarding Detection enables much faster link failover (sub-second). 
+
+## MACsec
+
+Used to encrypt traffic in the ExpressRoute direct method, encrypting the traffic between the customer edge router in the meet me, and the MSEE router. Not end-to-end encryption, just between routers.
+
+## VPN
+
+A S2S or P2S VPN can be created, with VPN gateways in both ends making that connection. The gateways must sit behind the Azure virtual network Gateway for the case in the cloud, and for on-prem behind the CEs (or maybe the CEs)  

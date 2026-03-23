@@ -4,16 +4,21 @@ ExpressRoute extends on-premises networks into Microsft Azure using a private co
 
 Connectivity can be from an IP VPN network, a point-to-point Ethernet network, or a virtual corss-connection through a connectivity provider at a colocation facility (exchange). Express routes offers reliability, faster speeds, consistent latencies and higher security. 
 
+ExpressRoute is not an encrypted connection, but security services such as IPsec or VPN tunnels can be run over it.
+
 A basic architecture: 
 
 ![Basic architecture](var/arch.png)
 
+It's always a pair, always redundant and always active-active
 ### Components that make possible an ExpressRoute:
 
 - Physical customer site: on-prem. Physical premises where a customer has its network. 
 - Express route circuit: connected by a partner of some kind. Linked up in one of the co-locations where MS and the partner have presence.  secure places 
-- Meet me: secure places where partner connections/circuits encounter Microsoft's. Partner needs to create a cross-connect through the meet me route in the MS routers, and directly into Microsoft secure edge. 
-- Microsoft Secure Edge: Microsoft routers that enables traffic to come into the Microsoft network. 
+- Meet me: secure places where partner connections/circuits encounter Microsoft's. Partner needs to create a cross-connect through the meet me route in the MS routers, and directly into Microsoft secure edge or microsoft enterprise edge. Facilities where customer connects to Microsoft, via a PE routers. This PE routers are connected to the customer but to Microsoft as well. Except with ExpressRoute direct, where customers have their own routers in the meet me locations. Some of them have local Azure regions associated with them. Microsoft does not provide last mile. 
+- Microsoft Secure Edge or Microsoft enterprise edge: Microsoft routers that enables traffic to come into the Microsoft network. 
+- Regional network gateways: routers connected to the massive Microsoft backbone. They are allocated to an specific region. There are redundant connections for all regions. 
+- PoP (point of presence): places where microsoft have infrastructure connected with ISPs.
 - Microsoft services: with public IPs. M365, SQL DB, etc
 - Azure: where the private address space is located.
 
@@ -42,15 +47,20 @@ Choosing any of the models will depend on the customer requirements, such as per
 |Optimization|Optimized for single tenant|Optimized for a single tenant with multiple business units|
 ### Azure ExpressRoute SKUs
 
-- Local SKU: connectivity to a single Azure region. Suitable for low latency access to resources in a particular Azure region
-- Standard SKU: multiple Azure regions within the same geopolitical area. Businesses that operate within a specific region but need access to resources across multiple locations
-- Premium SKU: All regions globally. Ideal for multinational orgs that require seamless connectivity to Azure resources across different continents. 
+- Local SKU: connectivity to a single Azure region. Suitable for low latency access to resources in a particular Azure region. Some of the Meet me locations have local regions of Azure, so Local SKU can only connect to the Azure region local to the meet me. Egress is not charged in any case
+- Standard SKU: multiple Azure regions within the same geopolitical area. Businesses that operate within a specific region but need access to resources across multiple locations. Geopolitical regions are documented. 
+- Premium SKU: All regions globally. Ideal for multinational orgs that require seamless connectivity to Azure resources across different continents. With premium, more routes can be advertised in the ER. 
+
+In any of the cases, customers are charged for egress traffic. Ingress is not charged. ExpressRoute is no difference. But there are two plans:
+- Metered: outbound traffic is charged. Based on the zone, it will have a cost per GB. Plan that fits most of the cases.
+- Unlimited (or unmetered): more expensive, but all the egress is included. Useful if customer expects that 60% of their traffic will be constantly used. Local SKU circuit is cheaper in this case, as if local is selected traffic is not metered. 
 
 ### Peering models for ExpressRoute
 
 Two peering schemes:
-- Private peering: secure, high-performance connectivity to Azure resources. Connects the on-prem with the Azure resources that are located in Virtual Networks and that have IP addresses in a private address space. To achieve this communication, on-prem and Azure should have not overlapping address spaces. Cannot use the public IP from a resource via a private peering. Uses ExpressRoute circuit.
-- Microsoft peering: suitable for accessing Microsoft SaaS and PaaS services. Connects Express route with Azure PaaS, M365 and Dynamics 365. Uses public IP traffic via Internet. 
+- Private peering: secure, high-performance connectivity to Azure resources. Connects the on-prem with the Azure resources that are located in Virtual Networks and that have IP addresses in a private address space. To achieve this communication, on-prem and Azure should have not overlapping address spaces. Cannot use the public IP from a resource via a private peering. Private peering is done between Azure Gateway and on-prem. This peering enables that on-prem address space is advertised to Azure, and Azure establishes the next-hop. By default, inbound traffic flows through the GW, but outbound  does not, going directly to the MSEE (except if fast path is enable, which will make connections to skip the gateway). BGP propagation. 
+	- Uses ExpressRoute circuit. This connection is done in a VNet, specifically in a VNet with a Gateway in its VNet Gateway subnet. This gateway is ExpressRoute gateway. Multiple VNets can connect to the same circuit, authorizations needed for their gateways to connect to the circuit. These networks connected to the same ExpressRoute in a private peering can talk to each other, but traffic will flow by the meet me location, so latency is added, peering is preferred.  
+- Microsoft peering: suitable for accessing Microsoft SaaS and PaaS services. Connects Express route with Azure PaaS, M365 and Dynamics 365. Uses public IP traffic via Internet. Other services that doesn't exist within a VNet. These services advertise their public IPs to the internet, but an ExpressRoute connection can be used. On the same circuit, both private and microsoft peerings can coexist, provider might charge separately. By default, turning on Microsoft peering does not automatically provides connection via the ExpressRoute. Top change that advertisement, a route filter is needed to be added to the peering, so via BGP the services can be advertised in the ExpressRoute circuit. In the route filter, customer can select the desired service communities for the services that they want to be reachable via the Express route. 
 
 ExpressRoute locations, know as well as peering locations or meet-me locations, are colocation facilities where Microsoft Secure Edge devices are situated. These are the entry points to Miocrosoft's network and are globally ditributed, offering the ability to connect to Microsoft's network worldwide. To choose a peering location, consider:
 - Proximity to your data centers: choose as close to DCs to minimize latency and improve the performance of the applications. On the ISP side, a shorter circuit would be cheaper. 
