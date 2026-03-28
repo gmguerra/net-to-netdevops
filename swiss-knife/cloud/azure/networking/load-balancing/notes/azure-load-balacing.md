@@ -44,6 +44,12 @@ Apart from the standard architectural models in the charts, there are several co
 
 Azure Load Balancing - help me choose page in the Azure portal guide customers to choose a load-balancing solution. Interactive wizard.
 
+|                       | **Global**            | **Regional**        |
+| --------------------- | --------------------- | ------------------- |
+| **L7**<br>**HTTP(s)** | Front Door            | Application Gateway |
+| **L4<br>TCP/UDP**     | Azure Traffic Manager | Azure Load Balancer |
+
+
 ## Summary
 
 | Service             | Global/regional | Recommended traffic |
