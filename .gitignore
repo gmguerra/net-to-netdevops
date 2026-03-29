@@ -5,3 +5,6 @@ ManufacturingVMazuredeploy.json
 ManufacturingVMazuredeploy.parameters.json
 CoreServicesVMazuredeploy.json
 CoreServicesVMazuredeploy.parameters.json
+backend.json
+backend.parameters.json
+install-iis.ps1
