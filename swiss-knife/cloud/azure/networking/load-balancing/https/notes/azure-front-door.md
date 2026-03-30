@@ -1,8 +1,12 @@
 # Azure Front Door
 
-Is a Content Delivery Network for cloud services. Provides fast, reliable and secure access to applications' web static and dynamic web content globally. It sits in Microsoft's extensive global edge network, and provides efficient content delivery through global and local PoPs positioned close to enterprise and consumer users. 
+Is a Content Delivery Network for cloud services. Provides fast, reliable and secure access to applications' web static and dynamic web content globally. It sits in Microsoft's extensive global edge network, and provides efficient content delivery through global and local PoPs positioned close to enterprise and consumer users. Azure Front Door uses the MSFT Backbone network. Adds anycast IP in the PoPs. As it's an anycast IP that lives in MSFT PoPs, sessions are closer to the user, SSL Offload can be done there as well, it frees the endpoint of doing all this hard work. When finally an user sends a request, the Front Door will send that request to the endpoint, but it will also cache it, so the next user gets it faster. TCP, TLS establishment happens closer to the user. 
 
-Provides as well security features, and is content-delivery optimized. Capabilities:
+Supports HTTP, HTTPS, HTTP/2.
+
+Front door is on its v2, with the following features:
+
+Provides as well security features, and is content-delivery optimized. Features,:
 - Static and dynamic content acceleration
 - Support global load balancing
 - Implement SSL offload
@@ -11,9 +15,9 @@ Provides as well security features, and is content-delivery optimized. Capabilit
 - Benefit from basic security capabilities
 
 In the Azure Front Door Premium tier, security is optimized:
-- WAF
+- WAF: provides protection to the Front Door.
 - Bot protection
-- Private Link support
+- Private Link support: redirect resources via a private endpoint 
 - Integration with Microsoft Threat Intelligence and security analytics.
 
 The user sends the request to the closer Microsoft Global Network data center. These locations are designed to cache content and deliver services with lower latency, improving the speed and responsiveness of apps for users worldwide. Once the request reaches Front Door, it determines where to direct the client request. The routing process includes the WAF, routing rules, rules engine and caching configuration. Requests can be routed depending on what the user needs, so it reaches the region that is optimized for that services. Front Door can even route the request to another cloud service or On-prem. 

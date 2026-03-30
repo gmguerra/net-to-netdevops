@@ -1,18 +1,22 @@
 # Azure Application Gateway
 
-Web traffic load balancer that manages traffic to Azure web applications. Works on the layer 7 and make decisions based on HTTP request attributes like URL paths and host headers. Provides SSL/TLS termination, autoscaling, zone redundancy and integration with Web Application Firewall for security by inspecting the traffic it receives. 
+Regigional Web traffic load balancer that manages traffic to Azure web applications. Works on the layer 7 and make decisions based on HTTP request attributes like URL paths and host headers. Provides SSL/TLS termination, autoscaling, zone redundancy and integration with Web Application Firewall for security by inspecting the traffic it receives. It is deployed into a VNet. 
 
 Processes network traffic to web apps hosted on a pool of web servers.  
 
-Supports HTTP, HTTPS, HTTP/2 and websocket protocols. It also supports end-to-end request encryption, autoscaling to dynamically adjust capacity to the web traffic load, connection draining to remove backend pool members during planned service updates, session stickiness to ensure client requests in the same session are routed to the same backend server and path and URL based routing. 
+Supports HTTP, HTTPS, HTTP/2 and websocket protocols. It also supports end-to-end request encryption, autoscaling to dynamically adjust capacity to the web traffic load, connection draining to remove backend pool members during planned service updates, session stickiness to ensure client requests in the same session are routed to the same backend server and path and URL based routing. It supports redirections and SSL offload, so load balancer decrypts the traffic and send it decrypted to the web app. Rewrite URL and request, cookie based affinity. 
 
 Flow:
-- Public or private frontend IP address, depending if the app should be public facing, or internal. 
-- Listeners receive incoming traffic requests. Protocol, port, Hostname and IP address. 
-- The application gateway routes the request to the appropriate backend based in the configured rule. 
-- Traffic is routed by checking the rules that may contain specific needs for specific URL paths or request headers. 
-- Application Gateway routes traffic to the server using the HTTP setting configuration specified. 
-- Once HTTP setting is configured, it needs to be associated with a routing rule. 
+- Public or publir and private (not private only) frontend IP address, depending if the app should be public facing, or internal. If public is not needed, traffic coming into the public IP can be locked down. 
+- Listeners are listening in the frontend IP and and port, and receive incoming traffic requests. Protocol, port, Hostname and IP address. Can do SSL offload and certificates can be hooked in. Two types:
+	- Basic: everything goes to a rule. Anything to the listening IP and port goes to the same rule.
+	- Multisite: multiple listeners on the same port and same IP, looks at the domain the user requests so based on that, sends it to the appropriate rule 
+- The application gateway routes the request to the appropriate backend based in the configured rule. Traffic is routed by checking the rules that may contain specific needs for specific URL paths or request headers. Support rewrites (URL or header). Two types:
+	- Basic rule: send the request to every backend configured.
+	- Path-based routing: checks the URL and sends the request to the appropriate server based on that. 
+Application Gateway routes traffic to the server using the HTTP setting configuration specified. 
+Once HTTP setting is configured, it needs to be associated with a routing rule. HTTP settings are affinity, encryption, etc. 
+- Backend pools: backend endpoints that will finally receive the requests. Backend pools can be things in Azure, On-prem via S2S VPN, Express Route, etc. 
 
 Endpoints types:
 - VM
