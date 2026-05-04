@@ -8,3 +8,4 @@ CoreServicesVMazuredeploy.parameters.json
 backend.json
 backend.parameters.json
 install-iis.ps1
+myvm-ssh-key.pem
